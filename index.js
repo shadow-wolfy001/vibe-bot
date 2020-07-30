@@ -74,6 +74,8 @@ client.on("message", async message => {
   const args = (message.content.slice(config.prefix.length).trim().split(/ +/g))
   const { prefix, token } = require('./config.json');
 
+  
+
   let reason = args.slice(1).join(' ');
 
   const trim = (str, max) => ((str.length > max) ? `${str.slice(0, max - 3)}...` : str);
@@ -83,7 +85,7 @@ client.on("message", async message => {
   const Discord = require('discord.js');
 
 
-  if(message.author.bot) return;
+  
 
   
 
@@ -128,7 +130,17 @@ else if(!message.member.hasPermission("KICK_MEMBERS"))
 
 return message.channel.send(HelpEmbed)
 
-
+const censorlist = [
+  "",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+"",
+]
 
 
 
@@ -152,16 +164,61 @@ return message.channel.send(HelpEmbed)
   message.channel.send(borkEmbed)
   }     
   
-   if (command === "ahegao")  {
+  if (command === "ahegao")  {
+
+    const aleghro = ["https://cdn.discordapp.com/attachments/723566792521547826/733874684399058964/mydocttfycn31.png",
+    "https://cdn.discordapp.com/attachments/723566792521547826/733874852783456357/2Q.png",
+    "https://cdn.discordapp.com/attachments/592463507124125706/723222937175326791/ahego_.png",
+    "https://cdn.discordapp.com/attachments/707354557814014032/733875769658310706/4845195bceb02f06b01fc9cc7a642499.png",
+    "https://cdn.discordapp.com/attachments/719017965277937726/733876938384343085/312059436013211.png",
+  ]
+    const randomAleghro = aleghro[Math.floor(Math.random() * aleghro.length)]
+  
+  
      let ahegaoEmbed = new Discord.MessageEmbed()
      .setTitle(`Ahegao!`)
-     .setImage(`https://cdn.discordapp.com/attachments/592463507124125706/723222937175326791/ahego_.png`)
+     .setImage(randomAleghro)
      .setTimestamp()
      await console.log(`ahegao command has been used in ${message.guild.name} by ${message.author.username}`);
   message.channel.send(ahegaoEmbed)
   
    }
 
+if(command ==="8ball")        {
+
+
+const eightballanswers = [
+  "Yes",
+"No",
+"Mabye",
+"Unsure",
+"Ask again",
+"Definetly",
+"Definetly not"
+
+
+
+
+
+
+
+
+
+]
+
+
+const eightballrandom = eightballanswers[Math.floor(Math.random() * eightballanswers.length)]
+
+let eightballembed = new Discord.MessageEmbed()
+.setTitle(`You asked vibe bot a question`)
+.addFields(
+{ name: 'Vibe bots answer is ', value: eightballrandom }
+
+
+)
+
+return message.channel.send(eightballembed)
+}
 
 
   if(command === "ping") {
@@ -170,19 +227,12 @@ return message.channel.send(HelpEmbed)
     m.edit(`Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ws.ping)}ms`);
   }
 
-  if(command === 'endticket') {
-    if (!message.channel.id === ('728420650963828796'))
-  return message.channel.send('this only works in a ticket channel')
-  else if (!message.member.hasPermission("MANAGE_GUILD"))
-    return;
-  if(message.member.hasPermission("MANAGE_GUILD"))
-return message.channel.delete()
-  }
+
   
   if(command === "say") {
-    if(!message.member.hasPermission("MANAGE_MESSAGES"))
-    return message.reply("You dont have the sufficient perms to use this,");
-   
+ 
+if(!message.member.hasPermission('MANAGE_MESSAGES'))
+return message.channel.send('You dont have perms to use this')
     const sayMessage = args.join(" ");
     
     message.delete().catch(O_o=>{}); 
@@ -438,10 +488,9 @@ if (isNaN(args[0]))
     .setColor('RED')
     .setTitle(`${message.author.username}, You do not have permission to do this`) 
     .setTimestamp()
-    if(!message.member.hasPermission("MANAGE_MESSAGES"))
+     if(!message.member.hasPermission("MANAGE_MESSAGES"))
 return message.channel.send(RolePermsEmbed)
 
-    
     const deleteCount = parseInt(args[0], 10);
     let nodeletenumberembed = new Discord.MessageEmbed()
     .setTitle(`Enter a purge amount between 2 - 100`)
@@ -466,6 +515,81 @@ return message.channel.send(RolePermsEmbed)
     })
       .catch(error => message.reply(`Couldn't delete messages because of: ${error}`));
   }
+
+
+
+
+  if(command === 'unmute') {
+
+    let RolePermsEmbed = new Discord.MessageEmbed()
+    .setColor('RED')
+    .setTitle(`${message.author.username}, You do not have the required permission to do this,`) 
+    .setTimestamp()
+
+    if(!message.member.hasPermission("MANAGE_MESSAGES"))
+     return message.channel.send(RolePermsEmbed)
+    
+    
+    
+     let mutevalidmemberembed = new Discord.MessageEmbed()
+     .setTitle('No user mentioned')
+       .addFields(
+         { name:  ` Please enter a valid user`, value:`Who do you want to be unmuted?` },
+       
+        )
+    
+    let member = message.mentions.members.first();
+    
+    if (!member)
+    return message.channel.send (mutevalidmemberembed)
+    
+
+    
+      const muterole = message.guild.roles.cache.find(role => role.name === 'Muted');
+     member.roles.remove(muterole);
+  
+    
+    let GGEmbed  = new Discord.MessageEmbed()
+    .setTitle('Succesfully unmuted!')
+    .addFields(
+      { name:  ` Succesfully unmuted ${member.user.username}`, value:` unmuted by ${message.author.username} `, inline: true, }
+    
+     )
+     
+     message.channel.send(GGEmbed)
+    
+    let MuteDMembed = new Discord.MessageEmbed()
+    .setTitle(`You have been unmuted in ${message.guild.name}`)
+    .addFields(
+      { name:  ` You have been unmuted  by`, value:`${message.author.username}`, inline: true, }
+    
+     )
+    member.user.send(MuteDMembed)   
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   if(command === 'mute') {
